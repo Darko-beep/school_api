@@ -1,0 +1,10 @@
+/node_modules
+.env
+.local
+.DS_Store
+# Ignore log files and temp files
+*.log   
+*.tmp
+# Ignore build output   
+/dist
+/build

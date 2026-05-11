@@ -1,0 +1,32 @@
+{
+  "name": "school-api",
+  "version": "1.0.0",
+  "description": "api project",
+  "keywords": [
+    "school_Api"
+  ],
+  "homepage": "https://github.com/Darko-beep/school_api#readme",
+  "bugs": {
+    "url": "https://github.com/Darko-beep/school_api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Darko-beep/school_api.git"
+  },
+  "license": "ISC",
+  "author": "Darko Frederick",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.6.2"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.1",
+    "nodemon": "^3.1.14"
+  }
+}
