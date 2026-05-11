@@ -1,17 +1,18 @@
-// creating a server using express
-const http = require('http'); //require the http module   
-const app = require('./app/app'); //require the app module
+// load env FIRST
+require('dotenv').config();
 
-//port 
+// creating a server using express
+const http = require('http');
+const app = require('./app/app');
+require('./config/dbConnect'); // now env is available
+
+// port 
 const PORT = process.env.PORT || 2020;
 
-
-
-
-//server 
+// server 
 const server = http.createServer(app);
 
-//listen to the server  
+// listen to the server  
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
