@@ -1,3 +1,6 @@
+const crypto = require('crypto');
+global.crypto = crypto;
+
 const mongoose = require('mongoose');
 
 const dbConnect = async () => {
