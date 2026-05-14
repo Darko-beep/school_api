@@ -68,20 +68,17 @@ const adminSchema = new mongoose.Schema(
 );
 
 
-// //hashed password 
-// adminSchema.pre("save", async function (next) {
-//   if (!this.isModified("password")) {
-//   next();
-//   }
+//hashed password 
+adminSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+  next();
+  }
 
-//   try {
-//     const salt = await bcrypt.genSalt(10); // 10 = salt rounds
-//     this.password = await bcrypt.hash(this.password, salt);
-//     next();
-//   } catch (error) {
-//     next(error); // pass error to Mongoose
-//   }
-// });
+  
+    const salt = await bcrypt.genSalt(10); // 10 = salt rounds
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+   });
 
   
 //model

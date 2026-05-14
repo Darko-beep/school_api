@@ -10,8 +10,8 @@ exports.registerAdminCtrl = async (req, res) => {
         res.json("Admin with this email already exists")
     }      
    
-    // hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // // hash password
+    // const hashedPassword = await bcrypt.hash(password, 10);
 
     // create new admin
     const user = await Admin.create({ username, email, password: hashedPassword });
@@ -29,7 +29,6 @@ exports.registerAdminCtrl = async (req, res) => {
     });
   }
 };
-
 
 // Admin login controller
 exports.loginAdminCtrl = (req, res) => {
