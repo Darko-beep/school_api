@@ -1,18 +1,35 @@
+const Admin = require('../../model/Staff/Admin');
+const bcrypt = require('bcryptjs');
 
-// Admin registration controller
-exports.registerAdminCtrl = (req, res) => {
-    try { 
-        res.status(201).json({
-            status: "success",
-            message: 'Admin registered successfully'
-        });
-    } catch (error) {
-        res.json({
-            status: "error",
-            error: error.message
-        });
-    }
+exports.registerAdminCtrl = async (req, res) => {
+    const { username, email, password } = req.body;
+  try {
+    // check if email exists
+    const adminFound = await Admin.findOne({ email });
+    if (adminFound) {
+        res.json("Admin with this email already exists")
+    }      
+   
+    // hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // create new admin
+    const user = await Admin.create({ username, email, password: hashedPassword });
+    await user.save();
+
+    res.status(201).json({
+      status: "success",
+      message: "Admin registered successfully",
+      data: user
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      error: error.message
+    });
+  }
 };
+
 
 // Admin login controller
 exports.loginAdminCtrl = (req, res) => {
