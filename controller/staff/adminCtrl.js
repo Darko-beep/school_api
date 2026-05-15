@@ -31,13 +31,21 @@ exports.registerAdminCtrl = async (req, res) => {
 };
 
 // Admin login controller
-exports.loginAdminCtrl = (req, res) => {
+exports.loginAdminCtrl = async (req, res) => {
+    const { email, password } = req.body;
     try {
-        res.status(200).json({  
-            status: "success",
-            message: 'Admin logged in successfully'
-        });
-    } catch (error) {
+        //find user by email
+        const user = await Admin.findOne({ email });
+        if (!user) {
+            return res.json("Admin with this email does not exist");
+        }
+        // is user is found and verify password
+        if (user && await user.verifyPassword(password)) {
+            return res.status(200).json({ data: user });
+        } else {
+            return res.json({ message: "Invalid Login Credentials" });
+        }
+     } catch (error) {
         res.json({
             status: "error",
             error: error.message
