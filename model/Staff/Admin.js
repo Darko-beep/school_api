@@ -68,23 +68,23 @@ const adminSchema = new mongoose.Schema(
 );
 
 
-//hashed password 
-adminSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-  next();
-  }
 
-  
-    const salt = await bcrypt.genSalt(10); // 10 = salt rounds
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-   });
+  // hashed password (async/await style)
+adminSchema.pre("save", async function () {
+  // Only hash if the password field was modified
+  if (!this.isModified("password")) return;
+
+  // Generate salt
+  const salt = await bcrypt.genSalt(10);
+
+  // Hash the password
+  this.password = await bcrypt.hash(this.password, salt);
+});
 
 // verify password
 adminSchema.methods.verifyPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
-
 
   
 //model

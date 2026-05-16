@@ -1,9 +1,15 @@
+// import asyncHandler from 'express-async-handler';
+const asyncHandler = require('express-async-handler');
+
+// import the Admin model
 const Admin = require('../../model/Staff/Admin');
+
+// import bcrypt for password hashing
 const bcrypt = require('bcryptjs');
 
-exports.registerAdminCtrl = async (req, res) => {
+exports.registerAdminCtrl = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
-  try {
+  
     // check if email exists
     const adminFound = await Admin.findOne({ email });
     if (adminFound) {
@@ -14,26 +20,21 @@ exports.registerAdminCtrl = async (req, res) => {
     // const hashedPassword = await bcrypt.hash(password, 10);
 
     // create new admin
-    const user = await Admin.create({ username, email, password: hashedPassword });
-    await user.save();
+    const user = await Admin.create({ username, email, password}); // password: hashedPassword
+    // await user.save();
 
     res.status(201).json({
       status: "success",
       message: "Admin registered successfully",
       data: user
     });
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      error: error.message
+
     });
-  }
-};
 
 // Admin login controller
-exports.loginAdminCtrl = async (req, res) => {
+exports.loginAdminCtrl = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    try {
+    
         //find user by email
         const user = await Admin.findOne({ email });
         if (!user) {
@@ -45,13 +46,14 @@ exports.loginAdminCtrl = async (req, res) => {
         } else {
             return res.json({ message: "Invalid Login Credentials" });
         }
-     } catch (error) {
+  
         res.json({
             status: "error",
             error: error.message
         });
-    }
-};
+});
+    
+
 
 // Get all admins controller
 exports.getAllAdminsCtrl = (req, res) => {

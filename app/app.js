@@ -1,4 +1,6 @@
 const express = require('express');
+// import the global error handler
+const { globalErrHandler, notFoundErr } = require('../middlewares/globalErrHandler');
 const morgan = require('morgan');
 //import the adminRouter
 const adminRouter = require('../routes/staff/adminRouter');
@@ -14,6 +16,11 @@ app.use(express.json());
 
 //admin registration route
 app.use('/api/v1/admins', adminRouter);
+
+//error middlewares
+app.use(notFoundErr); // notFoundErr should be used before the globalErrHandler
+app.use(globalErrHandler);
+
 
 // //admin login
 // app.use('/api/v1/admins/login', adminRouter);
