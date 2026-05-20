@@ -4,6 +4,12 @@ const asyncHandler = require('express-async-handler');
 // import the Admin model
 const Admin = require('../../model/Staff/Admin');
 
+//require generate token from utils
+const generateToken = require('../../utils/generateToken');
+
+//require verify token from utils
+const verifyToken = require('../../utils/verifyToken');
+
 // import bcrypt for password hashing
 const bcrypt = require('bcryptjs');
 
@@ -41,8 +47,13 @@ exports.loginAdminCtrl = asyncHandler(async (req, res) => {
             return res.json("Admin with this email does not exist");
         }
         // is user is found and verify password
-        if (user && await user.verifyPassword(password)) {
-            return res.status(200).json({ data: user });
+    if (user && await user.verifyPassword(password)) {
+        const token = generateToken(user._id)
+        
+            const verify = verifyToken(token);
+            
+        
+            return res.status(200).json({ data: generateToken(user._id), user, verify });
         } else {
             return res.json({ message: "Invalid Login Credentials" });
         }
@@ -73,6 +84,7 @@ exports.getAllAdminsCtrl = (req, res) => {
 // Get single admin details controller
 exports.getAdminByIdCtrl = (req, res) => {
     try {
+        console.log(req.userAuth);
         res.status(200).json({
             status: "success",
             message: 'Admin details retrieved successfully'

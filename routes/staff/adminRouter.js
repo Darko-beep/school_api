@@ -14,6 +14,9 @@ const { registerAdminCtrl,
     publishExamResultsCtrl,
     unpublishExamResultsCtrl } = require('../../controller/staff/adminCtrl.js');
 
+//isLoggin middleware 
+const isLogin = require('../../middlewares/isLogin.js');
+
 const adminRouter = express.Router();
 
 
@@ -28,7 +31,7 @@ adminRouter.post('/login', loginAdminCtrl);
 adminRouter.get('/', getAllAdminsCtrl);
 
 //get single admin details route
-adminRouter.get('/:id', getAdminByIdCtrl);
+adminRouter.get('/:id',isLogin, getAdminByIdCtrl);
 
 //update admin details route
 adminRouter.put('/:id', updateAdminCtrl);
