@@ -17,6 +17,9 @@ const { registerAdminCtrl,
 //isLoggin middleware 
 const isLogin = require('../../middlewares/isLogin.js');
 
+//isAdmin middleware
+const isAdmin = require('../../middlewares/isAdmin.js');
+
 const adminRouter = express.Router();
 
 
@@ -31,7 +34,7 @@ adminRouter.post('/login', loginAdminCtrl);
 adminRouter.get('/',isLogin, getAllAdminsCtrl);
 
 //get single admin details route
-adminRouter.get('/profile',isLogin, getAdminProfileCtrl);
+adminRouter.get('/profile',isLogin,isAdmin, getAdminProfileCtrl);
 
 //update admin details route
 adminRouter.put('/:id', updateAdminCtrl);
