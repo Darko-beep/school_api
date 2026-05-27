@@ -49,12 +49,11 @@ exports.loginAdminCtrl = asyncHandler(async (req, res) => {
         }
         // is user is found and verify password
     if (user && await user.verifyPassword(password)) {
-        const token = generateToken(user._id)
         
-            const verify = verifyToken(token);
-            
-        
-            return res.status(200).json({ data: generateToken(user._id), user, verify });
+        return res.status(200).json({
+            data: generateToken(user._id),
+            message: "Admin logged in successfully"
+        });
         } else {
             return res.json({ message: "Invalid Login Credentials" });
         }
@@ -85,13 +84,16 @@ exports.getAllAdminsCtrl = (req, res) => {
 // Get single admin details controller
 exports.getAdminProfileCtrl = asyncHandler(async(req, res) => {
     console.log(req.userAuth);
-    const admin =await Admin.findById(req.userAuth._id);
+    const admin = await Admin.findById(req.userAuth._id).select(
+        "-password -createdAt -updatedAt"
+    );
     if (!admin) {
         throw new Error('Admin Not Found')
     } else { 
         res.status(200).json({
             status: 'success',
-            data: admin
+            data: admin,
+            message: "Admin Profile Fetched successfully"
         });
     }
 
