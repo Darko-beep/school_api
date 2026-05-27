@@ -13,6 +13,7 @@ const verifyToken = require('../../utils/verifyToken');
 // import bcrypt for password hashing
 const bcrypt = require('bcryptjs');
 
+//register Admin 
 exports.registerAdminCtrl = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
   
@@ -82,20 +83,19 @@ exports.getAllAdminsCtrl = (req, res) => {
 };
 
 // Get single admin details controller
-exports.getAdminByIdCtrl = (req, res) => {
-    try {
-        console.log(req.userAuth);
+exports.getAdminProfileCtrl = asyncHandler(async(req, res) => {
+    console.log(req.userAuth);
+    const admin =await Admin.findById(req.userAuth._id);
+    if (!admin) {
+        throw new Error('Admin Not Found')
+    } else { 
         res.status(200).json({
-            status: "success",
-            message: 'Admin details retrieved successfully'
-        });
-    }catch (error) {
-        res.json({
-            status: "error",
-            error: error.message
+            status: 'success',
+            data: admin
         });
     }
-};
+
+});
 
 // Update admin details controller
 exports.updateAdminCtrl = (req, res) => {

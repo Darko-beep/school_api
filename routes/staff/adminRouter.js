@@ -4,7 +4,7 @@ const app = require("../../app/app.js");
 const { registerAdminCtrl,
     loginAdminCtrl,
     getAllAdminsCtrl,
-    getAdminByIdCtrl,
+    getAdminProfileCtrl,
     updateAdminCtrl,
     deleteAdminCtrl,
     suspendTeacherCtrl,
@@ -31,7 +31,7 @@ adminRouter.post('/login', loginAdminCtrl);
 adminRouter.get('/', getAllAdminsCtrl);
 
 //get single admin details route
-adminRouter.get('/:id',isLogin, getAdminByIdCtrl);
+adminRouter.get('/profile',isLogin, getAdminProfileCtrl);
 
 //update admin details route
 adminRouter.put('/:id', updateAdminCtrl);
