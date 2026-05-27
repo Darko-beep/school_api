@@ -65,21 +65,15 @@ exports.loginAdminCtrl = asyncHandler(async (req, res) => {
 });
     
 
-
 // Get all admins controller
-exports.getAllAdminsCtrl = (req, res) => {
-    try {  
-        res.status(200).json({
-            status: "success",
-            message: 'Admins retrieved successfully'
-        });
-    } catch (error) {
-        res.json({
-            status: "error",
-            error: error.message
-        });
-    }
-};
+exports.getAllAdminsCtrl = asyncHandler(async(req, res) => {
+    const admins = await Admin.find();
+    res.status(200).json({
+        status: "success",
+        message: "Admin fetched successfully",
+        data:admins
+    });
+});
 
 // Get single admin details controller
 exports.getAdminProfileCtrl = asyncHandler(async(req, res) => {

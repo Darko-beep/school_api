@@ -28,7 +28,7 @@ adminRouter.post('/login', loginAdminCtrl);
 
 
 //ger all admins route
-adminRouter.get('/', getAllAdminsCtrl);
+adminRouter.get('/',isLogin, getAllAdminsCtrl);
 
 //get single admin details route
 adminRouter.get('/profile',isLogin, getAdminProfileCtrl);
